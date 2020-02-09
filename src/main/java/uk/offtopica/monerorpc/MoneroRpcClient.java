@@ -31,6 +31,8 @@ public abstract class MoneroRpcClient {
     @NonNull
     private final URI address;
 
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+
     protected <T extends MoneroRpcResponseResult> CompletableFuture<MoneroRpcResponse<T>>
     request(MoneroRpcRequest<?> request, TypeReference<MoneroRpcResponse<T>> resultType) throws IOException {
         log.trace("Calling method {}", request.getMethod());
@@ -40,7 +42,7 @@ public abstract class MoneroRpcClient {
                 .header("Accept", "application/json")
                 .build();
 
-        return HttpClient.newHttpClient()
+        return httpClient
                 .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofByteArray())
                 .thenApply(HttpResponse::body)
                 .thenApply(body -> {
