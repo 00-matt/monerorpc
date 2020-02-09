@@ -20,4 +20,9 @@ public class MoneroDaemonRpcClient extends MoneroRpcClient {
         return request(new GetBlockTemplate.Request(walletAddress, reserveSize),
                 GetBlockTemplate.Response.TYPE_REFERENCE).thenApply(response -> response.getResult().asBlockTemplate());
     }
+
+    public CompletableFuture<Void> submitBlock(byte[] blob) throws IOException {
+        return request(new SubmitBlock.Request(blob), SubmitBlock.Response.TYPE_REFERENCE)
+                .thenApply(response -> null);
+    }
 }

@@ -5,9 +5,9 @@ import uk.offtopica.monerorpc.MoneroRpcClientTest;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.util.concurrent.ExecutionException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MoneroDaemonRpcClientTest extends MoneroRpcClientTest<MoneroDaemonRpcClient> {
     @Test
@@ -95,6 +95,36 @@ class MoneroDaemonRpcClientTest extends MoneroRpcClientTest<MoneroDaemonRpcClien
         assertEquals(128, blockTemplate.getReservedOffset());
         assertEquals(32, blockTemplate.getSeedHash().length);
         assertEquals(2029568L, blockTemplate.getSeedHeight());
+    }
+
+    @Test
+    void testSubmitInvalid() {
+        http.onPost(uri.toString())
+                .doReturnJSON("{\n" +
+                        "  \"id\": 0,\n" +
+                        "  \"jsonrpc\": \"2.0\",\n" +
+                        "  \"error\": {\n" +
+                        "    \"code\": -7,\n" +
+                        "    \"message\": \"Block not accepted\"\n" +
+                        "  }\n" +
+                        "}");
+
+        assertThrows(ExecutionException.class, () -> client.submitBlock(new byte[]{}).get());
+    }
+
+    @Test
+    void testSubmitValid() throws Exception {
+        http.onPost(uri.toString())
+                .doReturnJSON("{\n" +
+                        "  \"id\": 0,\n" +
+                        "  \"jsonrpc\": \"2.0\",\n" +
+                        "  \"result\": {\n" +
+                        "    \"status\": \"OK\"\n" +
+                        "  }\n" +
+                        "}");
+
+        // shouldn't throw
+        assertDoesNotThrow(() -> client.submitBlock(new byte[]{}).get());
     }
 
     @Override
