@@ -13,6 +13,18 @@
     <url>https://www.offtopica.uk/projects/monerorpc</url>
     <inceptionYear>2020</inceptionYear>
 
+    <issueManagement>
+        <url>https://github.com/00-matt/addressutil/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/00-matt/monerorpc</url>
+        <connection>scm:git:git://github.com/00-matt/monerorpc.git</connection>
+        <developerConnection>scm:git:git@github.com:00-matt/monerorpc.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -20,6 +32,26 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <email>matt@offtopica.uk</email>
+            <name>Matthew Smith</name>
+            <url>https://offtopica.uk</url>
+            <id>offtopica</id>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -116,6 +148,47 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
