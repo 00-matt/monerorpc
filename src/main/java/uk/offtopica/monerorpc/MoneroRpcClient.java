@@ -34,13 +34,19 @@ public abstract class MoneroRpcClient {
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
     protected <T extends MoneroRpcResponseResult> CompletableFuture<MoneroRpcResponse<T>>
-    request(MoneroRpcRequest<?> request, TypeReference<MoneroRpcResponse<T>> resultType) throws IOException {
+    request(MoneroRpcRequest<?> request, TypeReference<MoneroRpcResponse<T>> resultType) {
         log.trace("Calling method {}", request.getMethod());
 
-        HttpRequest httpRequest = HttpRequest.newBuilder(address)
-                .POST(HttpRequest.BodyPublishers.ofByteArray(OBJECT_MAPPER.writeValueAsBytes(request)))
-                .header("Accept", "application/json")
-                .build();
+        HttpRequest httpRequest;
+        try {
+            httpRequest = HttpRequest.newBuilder(address)
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(OBJECT_MAPPER.writeValueAsBytes(request)))
+                    .header("Accept", "application/json")
+                    .build();
+        } catch (IOException e) {
+            log.error("Failed to POST", e);
+            return CompletableFuture.failedFuture(e);
+        }
 
         return httpClient
                 .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofByteArray())
