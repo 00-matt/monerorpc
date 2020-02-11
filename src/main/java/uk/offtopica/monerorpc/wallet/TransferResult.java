@@ -1,7 +1,9 @@
 package uk.offtopica.monerorpc.wallet;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents the result of a transaction.
@@ -9,11 +11,12 @@ import lombok.NonNull;
  * @see MoneroWalletRpcClient#transfer
  */
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class TransferResult {
     @NonNull
     private byte[] hash;
 
-    @NonNull
     private byte[] key;
 
     @NonNull

@@ -52,7 +52,7 @@ class TransferSplit {
 
             public List<TransferResult> asTransferResultList() {
                 final int size = hashes.size();
-                if (keys.size() != size || amounts.size() != size || fees.size() != size) {
+                if ((keys != null && keys.size() != size) || amounts.size() != size || fees.size() != size) {
                     throw new RuntimeException("Mis-matched list lengths");
                 }
 
@@ -62,7 +62,7 @@ class TransferSplit {
                     for (int i = 0; i < size; i++) {
                         transferResultList.add(new TransferResult(
                                 HexUtils.hexStringToByteArray(hashes.get(i)),
-                                HexUtils.hexStringToByteArray(keys.get(i)),
+                                keys == null ? null : HexUtils.hexStringToByteArray(keys.get(i)),
                                 amounts.get(i),
                                 fees.get(i))
                         );
