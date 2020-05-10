@@ -1,10 +1,7 @@
-package uk.offtopica.monerorpc.daemon;
+package uk.offtopica.monerorpc.wallet;
 
 import org.junit.jupiter.api.Test;
 import uk.offtopica.monerorpc.MoneroRpcClientTest;
-import uk.offtopica.monerorpc.wallet.MoneroWalletRpcClient;
-import uk.offtopica.monerorpc.wallet.TransferDestination;
-import uk.offtopica.monerorpc.wallet.TransferResult;
 
 import java.net.URI;
 import java.util.List;
