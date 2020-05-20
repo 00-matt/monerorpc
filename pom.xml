@@ -4,7 +4,7 @@
 
     <groupId>uk.offtopica</groupId>
     <artifactId>monerorpc</artifactId>
-    <version>0.2.3</version>
+    <version>0.3.0-SNAPSHOT</version>
 
     <name>monerorpc</name>
     <description>Java interface for Monero wallet and daemon RPC</description>
@@ -20,7 +20,7 @@
         <url>https://github.com/00-matt/monerorpc</url>
         <connection>scm:git:git://github.com/00-matt/monerorpc.git</connection>
         <developerConnection>scm:git:git@github.com:00-matt/monerorpc.git</developerConnection>
-        <tag>monerorpc-0.2.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
