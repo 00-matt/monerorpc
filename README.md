@@ -17,12 +17,12 @@ A Java interface for Monero wallet and daemon RPC.
 	<dependency>
 		<groupId>uk.offtopica</groupId>
 		<artifactId>monerorpc</artifactId>
-		<version>0.1.0</version>
+		<version>0.2.2</version>
 	</dependency>
 
 ### Gradle
 
-	compile group: 'uk.offtopica', name: 'monerorpc', version: '0.1.0'
+	compile group: 'uk.offtopica', name: 'monerorpc', version: '0.2.2'
 
 ## Example
 
