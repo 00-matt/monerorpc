@@ -36,7 +36,7 @@ A Java interface for Monero wallet and daemon RPC.
 				new MoneroDaemonRpcClient(URI.create("http://localhost:18081/json_rpc"));
 			System.out.printf("%d\n", daemon.getBlockCount().get());
 		}
-	};
+	}
 
 ## Projects Using This Library
 
