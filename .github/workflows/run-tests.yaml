@@ -4,13 +4,27 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [11, 14, 15]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Download sources
+        uses: actions/checkout@v2
+      - name: Download JDK
+        uses: sormuras/download-jdk@v1
+        id: jdk
         with:
-          java-version: 11
-      - uses: actions/cache@v1
+          feature: ${{ matrix.java-version }}
+      - name: Install JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ steps.jdk.outputs.version }}
+          jdkFile: ${{ steps.jdk.outputs.file }}
+      - name: Setup cache
+        uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-      - run: mvn -B test --file pom.xml
+      - name: Run tests
+        run: mvn -B test --file pom.xml
