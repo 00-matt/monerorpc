@@ -22,6 +22,24 @@ public class MoneroWalletRpcClient extends MoneroRpcClient {
     }
 
     /**
+     * Create a new wallet address.
+     *
+     * @param accountIdx The account to create the address in. Use 0 if you are unsure
+     * @param label      Optional label for new address. May be null
+     * @return A future that, when complete, returns the wallet address and its indices.
+     */
+    public CompletableFuture<IndexedAddress> createAddress(int accountIdx, String label) {
+        if (accountIdx < 0) {
+            throw new IllegalArgumentException("accountIdx must be positive");
+        }
+        return request(new CreateAddress.Request(accountIdx, label), CreateAddress.Response.TYPE_REFERENCE)
+                .thenApply(response -> {
+                    var result = response.getResult();
+                    return new IndexedAddress(accountIdx, result.getAddressIndex(), result.getAddress());
+                });
+    }
+
+    /**
      * Send XMR to one or more recipients.
      * <p>
      * Note that this calls the server's <code>transfer_split</code> method instead of just <code>transfer</code>.

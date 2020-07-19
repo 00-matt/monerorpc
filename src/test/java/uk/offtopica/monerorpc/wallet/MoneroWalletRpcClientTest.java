@@ -11,6 +11,26 @@ import static uk.offtopica.monerorpc.utils.HexUtils.hexStringToByteArray;
 
 class MoneroWalletRpcClientTest extends MoneroRpcClientTest<MoneroWalletRpcClient> {
     @Test
+    void testCreateAddressSuccess() throws Exception {
+        http.onPost((uri.toString()))
+                .doReturnJSON("{\n" +
+                        "  \"id\": \"0\",\n" +
+                        "  \"jsonrpc\": \"2.0\",\n" +
+                        "  \"result\": {\n" +
+                        "    \"address\": \"7BG5jr9QS5sGMdpbBrZEwVLZjSKJGJBsXdZLt8wiXyhhLjy7x2LZxsrAnHTgD8oG46ZtLjUGic2pWc96GFkGNPQQDA3Dt7Q\",\n" +
+                        "    \"address_index\": 5\n" +
+                        "  }\n" +
+                        "}");
+
+        assertEquals(new IndexedAddress(
+                        0,
+                        5,
+                        "7BG5jr9QS5sGMdpbBrZEwVLZjSKJGJBsXdZLt8wiXyhhLjy7x2LZxsrAnHTgD8oG46ZtLjUGic2pWc96GFkGNPQQDA3Dt7Q"),
+                client.createAddress(0, null).get()
+        );
+    }
+
+    @Test
     void testTransferSuccessOneResult() throws Exception {
         http.onPost(uri.toString())
                 .doReturnJSON("{\n" +
