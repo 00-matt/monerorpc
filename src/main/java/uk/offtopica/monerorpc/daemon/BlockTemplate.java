@@ -1,5 +1,8 @@
 package uk.offtopica.monerorpc.daemon;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -11,6 +14,8 @@ import java.math.BigInteger;
  * @see MoneroDaemonRpcClient#getBlockTemplate(String, int)
  */
 @Data
+@JsonDeserialize(builder = BlockTemplate.BlockTemplateBuilder.class)
+@Builder(builderClassName = "BlockTemplateBuilder", toBuilder = true)
 public class BlockTemplate {
     /**
      * The
@@ -74,4 +79,8 @@ public class BlockTemplate {
      */
     @NonNull
     private final Long seedHeight;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class BlockTemplateBuilder {
+    }
 }
