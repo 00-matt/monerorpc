@@ -21,6 +21,7 @@ class CreateAddress {
         @AllArgsConstructor
         static class Params implements MoneroRpcRequestParams {
             @NonNull
+            @JsonProperty("account_index")
             private Integer accountIndex;
 
             private String label;
