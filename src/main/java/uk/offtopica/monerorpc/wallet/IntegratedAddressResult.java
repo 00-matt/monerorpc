@@ -1,10 +1,11 @@
 package uk.offtopica.monerorpc.wallet;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
+/**
+ * Result of a {@link MoneroWalletRpcClient#createIntegratedAddress(String, String)} call.
+ */
 @Data
 public class IntegratedAddressResult {
     /**
