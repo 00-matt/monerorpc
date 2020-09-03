@@ -40,6 +40,34 @@ public class MoneroWalletRpcClient extends MoneroRpcClient {
     }
 
     /**
+     * Create an integrated address with this wallet's primary address and a random payment id.
+     *
+     * @return A future that, when complete, returns the integrated address and payment id.
+     * @see #createIntegratedAddress(String, String)
+     */
+    public CompletableFuture<IntegratedAddressResult> createIntegratedAddress() {
+        return createIntegratedAddress(null, null);
+    }
+
+    /**
+     * Join a wallet address and a short payment id to get an integrated address
+     *
+     * @param standardAddress The base wallet address to use. If {@code null}, defaults to the current wallet's primary
+     *                        address
+     * @param paymentId       The payment id to use. Should be {@code null} or 16 hex characters. Defaults to random.
+     * @return A future that, when complete, returns the integrated address and payment id.
+     */
+    public CompletableFuture<IntegratedAddressResult> createIntegratedAddress(String standardAddress,
+                                                                              String paymentId) {
+        return request(new CreateIntegratedAddress.Request(standardAddress, paymentId),
+                CreateIntegratedAddress.Response.TYPE_REFERENCE)
+                .thenApply(response -> {
+                    var result = response.getResult();
+                    return new IntegratedAddressResult(result.getIntegratedAddress(), result.getPaymentId());
+                });
+    }
+
+    /**
      * Send XMR to one or more recipients.
      * <p>
      * Note that this calls the server's <code>transfer_split</code> method instead of just <code>transfer</code>.

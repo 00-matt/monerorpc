@@ -34,6 +34,23 @@ class MoneroWalletRpcClientTest extends MoneroRpcClientTest<MoneroWalletRpcClien
     }
 
     @Test
+    void testCreateIntegratedAddressSuccess() throws Exception {
+        setupMockEndpointSuccess(
+                "make_integrated_address",
+                Map.of(),
+                Map.of("integrated_address",
+                        "5F38Rw9HKeaLQGJSPtbYDacR7dz8RBFnsfAKMaMuwUNYX6aQbBcovzDPyrQF9KXF9tVU6Xk3K8no1BywnJX6Gv",
+                        "payment_id",
+                        "420fa29b2d9a49f5")
+        );
+
+        assertEquals(new IntegratedAddressResult(
+                        "5F38Rw9HKeaLQGJSPtbYDacR7dz8RBFnsfAKMaMuwUNYX6aQbBcovzDPyrQF9KXF9tVU6Xk3K8no1BywnJX6Gv",
+                        "420fa29b2d9a49f5"),
+                client.createIntegratedAddress().get());
+    }
+
+    @Test
     void testTransferSuccessOneResult() throws Exception {
         setupMockEndpointSuccess(
                 "transfer_split",
