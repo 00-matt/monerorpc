@@ -68,6 +68,17 @@ public class MoneroWalletRpcClient extends MoneroRpcClient {
     }
 
     /**
+     * Get a list of incoming payments using a given payment id.
+     *
+     * @param paymentId The payment id. 16 hex characters.
+     * @return A future, that when complete, returns a list of payments. The list may be empty.
+     */
+    public CompletableFuture<List<Payment>> getPayments(String paymentId) {
+        return request(new GetPayments.Request(paymentId), GetPayments.Response.TYPE_REFERENCE)
+                .thenApply(response -> response.getResult().asPaymentList());
+    }
+
+    /**
      * Send XMR to one or more recipients.
      * <p>
      * Note that this calls the server's <code>transfer_split</code> method instead of just <code>transfer</code>.

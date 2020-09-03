@@ -51,6 +51,46 @@ class MoneroWalletRpcClientTest extends MoneroRpcClientTest<MoneroWalletRpcClien
     }
 
     @Test
+    void testGetPaymentsSuccess() throws Exception {
+        setupMockEndpointSuccess(
+                "get_payments",
+                Map.of("payment_id", "60900e5603bf96e3"),
+                Map.of("payments",
+                        List.of(Map.of(
+                                "address",
+                                "55LTR8KniP4LQGJSPtbYDacR7dz8RBFnsfAKMaMuwUNYX6aQbBcovzDPyrQF9KXF9tVU6Xk3K8no1BywnJX6GvZX8yJsXvt",
+                                "amount",
+                                1000000000000L,
+                                "block_height",
+                                127606L,
+                                "payment_id",
+                                "60900e5603bf96e3",
+                                "tx_hash",
+                                "3292e83ad28fc1cc7bc26dbd38862308f4588680fbf93eae3e803cddd1bd614f",
+                                "unlock_time",
+                                0L,
+                                "subaddr_index",
+                                Map.of(
+                                        "major", 0,
+                                        "minor", 0
+                                )
+                        )))
+        );
+
+        assertEquals(List.of(new Payment(
+                new IndexedAddress(
+                        0,
+                        0,
+                        "55LTR8KniP4LQGJSPtbYDacR7dz8RBFnsfAKMaMuwUNYX6aQbBcovzDPyrQF9KXF9tVU6Xk3K8no1BywnJX6GvZX8yJsXvt"
+                ),
+                1000000000000L,
+                127606L,
+                hexStringToByteArray("3292e83ad28fc1cc7bc26dbd38862308f4588680fbf93eae3e803cddd1bd614f"),
+                0L
+        )), client.getPayments("60900e5603bf96e3").get());
+    }
+
+    @Test
     void testTransferSuccessOneResult() throws Exception {
         setupMockEndpointSuccess(
                 "transfer_split",
