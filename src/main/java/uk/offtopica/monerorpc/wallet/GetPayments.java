@@ -71,15 +71,11 @@ class GetPayments {
 
                 public Payment asPayment() {
                     final var indexedAddress = new IndexedAddress(subaddrIndex.major, subaddrIndex.minor, address);
-                    try {
-                        return new Payment(indexedAddress,
-                                amount,
-                                blockHeight,
-                                HexUtils.hexStringToByteArray(txHash),
-                                unlockTime);
-                    } catch (InvalidHexStringException e) {
-                        throw new RuntimeException(e);
-                    }
+                    return new Payment(indexedAddress,
+                            amount,
+                            blockHeight,
+                            txHash,
+                            unlockTime);
                 }
 
                 @Data

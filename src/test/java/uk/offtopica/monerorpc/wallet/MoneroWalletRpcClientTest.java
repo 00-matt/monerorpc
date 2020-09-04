@@ -85,7 +85,7 @@ class MoneroWalletRpcClientTest extends MoneroRpcClientTest<MoneroWalletRpcClien
                 ),
                 1000000000000L,
                 127606L,
-                hexStringToByteArray("3292e83ad28fc1cc7bc26dbd38862308f4588680fbf93eae3e803cddd1bd614f"),
+                "3292e83ad28fc1cc7bc26dbd38862308f4588680fbf93eae3e803cddd1bd614f",
                 0L
         )), client.getPayments("60900e5603bf96e3").get());
     }

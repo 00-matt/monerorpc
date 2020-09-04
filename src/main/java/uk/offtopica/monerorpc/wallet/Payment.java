@@ -20,7 +20,7 @@ public class Payment {
     private Long blockHeight;
 
     @NonNull
-    private byte[] txHash;
+    private String txHash;
 
     @NonNull
     private Long unlockTime;
