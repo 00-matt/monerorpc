@@ -91,6 +91,17 @@ class MoneroWalletRpcClientTest extends MoneroRpcClientTest<MoneroWalletRpcClien
     }
 
     @Test
+    void testGetPaymentsSuccessEmpty() throws Exception {
+        setupMockEndpointSuccess(
+                "get_payments",
+                Map.of("payment_id", "60900e5603bf96e3"),
+                Map.of()
+        );
+
+        assertEquals(List.of(), client.getPayments("60900e5603bf96e3").get());
+    }
+
+    @Test
     void testTransferSuccessOneResult() throws Exception {
         setupMockEndpointSuccess(
                 "transfer_split",

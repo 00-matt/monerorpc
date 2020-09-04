@@ -41,6 +41,10 @@ class GetPayments {
             private List<Inner> payments;
 
             public List<Payment> asPaymentList() {
+                if (payments == null) {
+                    return new ArrayList<>();
+                }
+
                 final var list = new ArrayList<Payment>(payments.size());
                 for (Inner inner : payments) {
                     list.add(inner.asPayment());
