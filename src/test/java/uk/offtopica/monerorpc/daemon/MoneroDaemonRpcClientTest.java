@@ -86,6 +86,22 @@ class MoneroDaemonRpcClientTest extends MoneroRpcClientTest<MoneroDaemonRpcClien
     }
 
     @Test
+    void testGetBlockHeaderByHeightFail() throws Throwable {
+        setupMockEndpointError(
+                "get_block_header_by_height",
+                Map.of("height", 9123455),
+                -2,
+                "Requested block height: 9123455 greater than current top block height: 2179971"
+        );
+
+        ExecutionException e = assertThrows(ExecutionException.class,
+                () -> client.getBlockHeader(9123455).get());
+
+        assertEquals("Requested block height: 9123455 greater than current top block height: 2179971",
+                e.getCause().getMessage());
+    }
+
+    @Test
     void testGetBlockTemplate() throws Exception {
         // Need to do this because Map.of doesn't have enough parameters to create a blocktemplate.
         final var result = new HashMap<String, Object>();
