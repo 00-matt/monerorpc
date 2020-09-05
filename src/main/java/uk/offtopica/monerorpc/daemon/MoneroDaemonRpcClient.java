@@ -31,6 +31,17 @@ public class MoneroDaemonRpcClient extends MoneroRpcClient {
     }
 
     /**
+     * Get a block header by its height.
+     *
+     * @param height Height of block.
+     * @return A future, that when complete, returns some basic information about a block.
+     */
+    public CompletableFuture<BlockHeader> getBlockHeader(long height) {
+        return request(new GetBlockHeaderByHeight.Request(height), GetBlockHeaderByHeight.Response.TYPE_REFERENCE)
+                .thenApply(response -> response.getResult().asBlockHeader());
+    }
+
+    /**
      * Create a new block template for mining.
      *
      * @param walletAddress The address to receive the coinbase reward.
