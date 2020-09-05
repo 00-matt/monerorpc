@@ -79,8 +79,7 @@ class GetBlockTemplate {
                     return new BlockTemplate(
                             hexStringToByteArray(blockTemplate),
                             hexStringToByteArray(blockHashing),
-                            // TODO: Use difficultyTop64 or wide_difficulty.
-                            BigInteger.valueOf(difficulty),
+                            new BigInteger(wideDifficulty.substring(2), 16),
                             expectedReward,
                             height,
                             nextSeedHash.length() == 0 ? null : hexStringToByteArray(nextSeedHash),
