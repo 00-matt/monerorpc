@@ -5,6 +5,8 @@ import uk.offtopica.monerorpc.MoneroRpcClient;
 import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 
+import static uk.offtopica.monerorpc.utils.HexUtils.byteArrayToHexString;
+
 /**
  * Represents an RPC connection to a Monero daemon.
  */
@@ -28,6 +30,28 @@ public class MoneroDaemonRpcClient extends MoneroRpcClient {
     public CompletableFuture<Long> getBlockCount() {
         return request(new GetBlockCount.Request(), GetBlockCount.Response.TYPE_REFERENCE)
                 .thenApply(response -> response.getResult().getCount());
+    }
+
+    /**
+     * Get a block header by its hash.
+     *
+     * @param hash Hash of the block, as a hex string.
+     * @return A future, that when complete, returns some basic information about a block.
+     */
+    public CompletableFuture<BlockHeader> getBlockHeader(String hash) {
+        return request(new GetBlockHeaderByHash.Request(hash), GetBlockHeaderByHeight.Response.TYPE_REFERENCE)
+                .thenApply(response -> response.getResult().asBlockHeader());
+    }
+
+    /**
+     * Get a block header by its hash.
+     *
+     * @param hash Hash of the block, as an array of bytes.
+     * @return A future, that when complete, returns some basic information about a block.
+     * @see #getBlockHeader(String)
+     */
+    public CompletableFuture<BlockHeader> getBlockHeader(byte[] hash) {
+        return getBlockHeader(byteArrayToHexString(hash));
     }
 
     /**

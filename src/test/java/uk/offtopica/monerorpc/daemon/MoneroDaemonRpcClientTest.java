@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static uk.offtopica.monerorpc.utils.HexUtils.byteArrayToHexString;
 import static uk.offtopica.monerorpc.utils.HexUtils.hexStringToByteArray;
 
 class MoneroDaemonRpcClientTest extends MoneroRpcClientTest<MoneroDaemonRpcClient> {
@@ -29,60 +30,33 @@ class MoneroDaemonRpcClientTest extends MoneroRpcClientTest<MoneroDaemonRpcClien
     }
 
     @Test
-    void testGetBlockHeaderByHeightSuccess() throws Exception {
-        // Need to do this because Map.of doesn't have enough parameters to create a block header.
-        final var blockHeader = new HashMap<String, Object>();
-        blockHeader.put("block_size", 210);
-        blockHeader.put("block_weight", 210);
-        blockHeader.put("cumulative_difficulty", 754734824984346L);
-        blockHeader.put("cumulative_difficulty_top64", 0);
-        blockHeader.put("depth", 1267602);
-        blockHeader.put("difficulty", 815625611);
-        blockHeader.put("difficulty_top64", 0);
-        blockHeader.put("hash", "e22cf75f39ae720e8b71b3d120a5ac03f0db50bba6379e2850975b4859190bc6");
-        blockHeader.put("height", 912345);
-        blockHeader.put("long_term_weight", 210);
-        blockHeader.put("major_version", 1);
-        blockHeader.put("miner_tx_hash", "c7da3965f25c19b8eb7dd8db48dcd4e7c885e2491db77e289f0609bf8e08ec30");
-        blockHeader.put("minor_version", 2);
-        blockHeader.put("nonce", 1646);
-        blockHeader.put("num_txes", 0);
-        blockHeader.put("orphan_status", false);
-        blockHeader.put("pow_hash", "");
-        blockHeader.put("prev_hash", "b61c58b2e0be53fad5ef9d9731a55e8a81d972b8d90ed07c04fd37ca6403ff78");
-        blockHeader.put("reward", 7388968946286L);
-        blockHeader.put("timestamp", 1452793716);
-        blockHeader.put("wide_cumulative_difficulty", "0x2ae6d65248f1a");
-        blockHeader.put("wide_difficulty", "0x309d758b");
-
+    void testGetBlockHeaderByHashSuccess() throws Exception {
         setupMockEndpointSuccess(
-                "get_block_header_by_height",
-                Map.of("height", 912345),
+                "get_block_header_by_hash",
+                Map.of("hash", byteArrayToHexString(DaemonTestConstants.BLOCK_HEADER_1_HASH)),
                 Map.of(
                         "block_header",
-                        blockHeader
+                        DaemonTestConstants.BLOCK_HEADER_1_JSON
                 )
         );
 
-        assertEquals(new BlockHeader(
-                210,
-                210,
-                210,
-                1267602,
-                BigInteger.valueOf(815625611),
-                BigInteger.valueOf(754734824984346L),
-                hexStringToByteArray("e22cf75f39ae720e8b71b3d120a5ac03f0db50bba6379e2850975b4859190bc6"),
-                912345,
-                1,
-                2,
-                1646,
-                0,
-                false,
-                hexStringToByteArray("b61c58b2e0be53fad5ef9d9731a55e8a81d972b8d90ed07c04fd37ca6403ff78"),
-                hexStringToByteArray("c7da3965f25c19b8eb7dd8db48dcd4e7c885e2491db77e289f0609bf8e08ec30"),
-                7388968946286L,
-                1452793716
-        ), client.getBlockHeader(912345).get());
+        assertEquals(DaemonTestConstants.BLOCK_HEADER_1,
+                client.getBlockHeader(DaemonTestConstants.BLOCK_HEADER_1_HASH).get());
+    }
+
+    @Test
+    void testGetBlockHeaderByHeightSuccess() throws Exception {
+        setupMockEndpointSuccess(
+                "get_block_header_by_height",
+                Map.of("height", DaemonTestConstants.BLOCK_HEADER_1_HEIGHT),
+                Map.of(
+                        "block_header",
+                        DaemonTestConstants.BLOCK_HEADER_1_JSON
+                )
+        );
+
+        assertEquals(DaemonTestConstants.BLOCK_HEADER_1,
+                client.getBlockHeader(DaemonTestConstants.BLOCK_HEADER_1_HEIGHT).get());
     }
 
     @Test
